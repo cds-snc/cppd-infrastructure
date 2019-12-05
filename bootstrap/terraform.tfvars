@@ -1,0 +1,2 @@
+name    = "EsDCCPPDTfRg"
+location = "canadacentral"
