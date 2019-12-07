@@ -4,11 +4,21 @@ terraform {
 
 provider "azurerm" {
   version = "~> 1.27"
+  skip_provider_registration = true
 }
 
 resource "azurerm_resource_group" "resource_group" {
-  name     = "${var.name}-remote-state-RG"
+  name     = var.name
   location = var.location
+
+  tags { 
+    Branch = "IITB"
+    Classification = "Unclassified"
+    Directorate = "BOSS"
+    Environment = "Development"
+    Project = "CPP-D"
+    ServiceOwner = "calvin.rodo@014gc.onmicrosoft.com"
+  }
 }
 
 resource "azurerm_storage_account" "remote_state_sa" {
