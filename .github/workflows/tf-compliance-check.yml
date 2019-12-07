@@ -1,0 +1,46 @@
+name: OpenPolicyAgent Compliance Checks 
+
+on: [push]
+
+jobs:
+  Compliance_Check:
+    container:
+      image: hashicorp/terraform:0.12.17
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: 'Terraform Init'
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 0.12.17
+        tf_actions_subcommand: 'init'
+        tf_actions_working_dir: '.'
+        tf_actions_comment: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ARM_CLIENT_ID: "${{secrets.CLIENT_ID}}"
+        ARM_SUBSCRIPTION_ID: "${{secrets.SUBSCRIPTION_ID}}"
+        ARM_TENANT_ID: "${{secrets.TENANT_ID}}"
+        ARM_CLIENT_SECRET: "${{secrets.CLIENT_SECRET}}"
+        TF_CLI_ARGS: "-backend-config=backend.tfvars"
+    - name: 'Terraform Plan'
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 0.12.17
+        tf_actions_subcommand: 'plan'
+        tf_actions_working_dir: '.'
+        tf_actions_comment: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ARM_CLIENT_ID: "${{secrets.CLIENT_ID}}"
+        ARM_SUBSCRIPTION_ID: "${{secrets.SUBSCRIPTION_ID}}"
+        ARM_TENANT_ID: "${{secrets.TENANT_ID}}"
+        ARM_CLIENT_SECRET: "${{secrets.CLIENT_SECRET}}"
+        TF_CLI_ARGS: "-out tf.plan"
+    - name: Generate JSON 
+      run: terraform show -json tf.plan > tf.plan.json
+    - name: test
+      uses: instrumenta/conftest-action@master
+      with:
+        files: tf.plan.json
+    

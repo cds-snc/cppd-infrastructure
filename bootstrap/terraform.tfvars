@@ -1,2 +1,2 @@
 name    = "EsDCCPPDTfRg"
-location = "canadacentral"
+location = "canadaeast"
