@@ -23,7 +23,6 @@ jobs:
     - name: 'Generate JSON file'
       run: terraform show -json tf.plan > tf.plan.JSON
     - name: Configuration Test
-    - name: test
       uses: instrumenta/conftest-action@master
       with:
         files: tf.plan.json
