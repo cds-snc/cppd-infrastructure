@@ -14,14 +14,14 @@ jobs:
       ARM_CLIENT_SECRET: "${{secrets.CLIENT_SECRET}}"
     steps:
     - uses: actions/checkout@v1
-    - name: 'Terraform Init'
-      runs: terraform init  -backend-config=backend.tfvars
+    - name: 'Terraform Init & Validate'
+      run: terraform init  -backend-config=backend.tfvars
     - name: 'Terraform Validate'
-      runs: terraform validate
+      run: terraform validate
     - name: 'Terraform Plan'
-      runs: terraform plan -out tf.plan
+      run: terraform plan -out tf.plan
     - name: 'Generate JSON file'
-      runs: terraform show -json tf.plan > tf.plan.JSON
+      run: terraform show -json tf.plan > tf.plan.JSON
     - name: Configuration Test
     - name: test
       uses: instrumenta/conftest-action@master
