@@ -4,14 +4,17 @@ on: [push]
 
 jobs:
   Compliance_Check:
+
     container:
       image: hashicorp/terraform:0.12.17
     runs-on: ubuntu-latest
+
     env:
       ARM_CLIENT_ID: "${{secrets.CLIENT_ID}}"
       ARM_SUBSCRIPTION_ID: "${{secrets.SUBSCRIPTION_ID}}"
       ARM_TENANT_ID: "${{secrets.TENANT_ID}}"
       ARM_CLIENT_SECRET: "${{secrets.CLIENT_SECRET}}"
+
     steps:
     - uses: actions/checkout@v1
     - name: 'Terraform Init & Validate'
@@ -19,9 +22,9 @@ jobs:
     - name: 'Terraform Validate'
       run: terraform validate
     - name: 'Terraform Plan'
-      run: terraform plan -out tf.plan
+      run:  terraform plan -out tf.plan 
     - name: 'Generate JSON file'
-      run: terraform show -json tf.plan > tf.plan.JSON
+      run:  terraform show -json tf.plan > tf.plan.json
     - name: Configuration Test
       uses: instrumenta/conftest-action@master
       with:
