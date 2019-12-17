@@ -4,48 +4,28 @@ on: [push]
 
 jobs:
   Compliance_Check:
+
     container:
       image: hashicorp/terraform:0.12.17
     runs-on: ubuntu-latest
+
+    env:
+      ARM_CLIENT_ID: "${{secrets.CLIENT_ID}}"
+      ARM_SUBSCRIPTION_ID: "${{secrets.SUBSCRIPTION_ID}}"
+      ARM_TENANT_ID: "${{secrets.TENANT_ID}}"
+      ARM_CLIENT_SECRET: "${{secrets.CLIENT_SECRET}}"
+
     steps:
     - uses: actions/checkout@v1
-    - name: 'Terraform Init'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.12.17
-        tf_actions_subcommand: 'init'
-        tf_actions_working_dir: '.'
-        tf_actions_comment: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        ARM_CLIENT_ID: "${{secrets.CLIENT_ID}}"
-        ARM_SUBSCRIPTION_ID: "${{secrets.SUBSCRIPTION_ID}}"
-        ARM_TENANT_ID: "${{secrets.TENANT_ID}}"
-        ARM_CLIENT_SECRET: "${{secrets.CLIENT_SECRET}}"
-        TF_CLI_ARGS: "-backend-config=backend.tfvars"
+    - name: 'Terraform Init & Validate'
+      run: terraform init  -backend-config=backend.tfvars
     - name: 'Terraform Validate'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.12.17
-        tf_actions_subcommand: 'validate'
-        tf_actions_working_dir: '.'
-        tf_actions_comment: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        ARM_CLIENT_ID: "${{secrets.CLIENT_ID}}"
-        ARM_SUBSCRIPTION_ID: "${{secrets.SUBSCRIPTION_ID}}"
-        ARM_TENANT_ID: "${{secrets.TENANT_ID}}"
-        ARM_CLIENT_SECRET: "${{secrets.CLIENT_SECRET}}"
+      run: terraform validate
     - name: 'Terraform Plan'
-      uses: hashicorp/terraform-github-actions@master
+      run:  terraform plan -out tf.plan 
+    - name: 'Generate JSON file'
+      run:  terraform show -json tf.plan > tf.plan.json
+    - name: Configuration Test
+      uses: instrumenta/conftest-action@master
       with:
-        tf_actions_version: 0.12.17
-        tf_actions_subcommand: 'plan'
-        tf_actions_working_dir: '.'
-        tf_actions_comment: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        ARM_CLIENT_ID: "${{secrets.CLIENT_ID}}"
-        ARM_SUBSCRIPTION_ID: "${{secrets.SUBSCRIPTION_ID}}"
-        ARM_TENANT_ID: "${{secrets.TENANT_ID}}"
-        ARM_CLIENT_SECRET: "${{secrets.CLIENT_SECRET}}"
+        files: tf.plan.json
