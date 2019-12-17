@@ -15,6 +15,17 @@ variable "docker_image_tag" {
   description = "(Optional) Specify the tag to be deployed"
 }
 
+variable "environment" {
+  description = "(Required) Value for the environment tag"
+}
+
+variable "service_owner" { 
+  description = "(Required) Value for the service owner tag"
+}
+
+variable "classification" { 
+  description = "(Required) the value for the classification tag"
+}
 #variable "my_sql_master_password" {
 #  description = "MySql master password"
 #}

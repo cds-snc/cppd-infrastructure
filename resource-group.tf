@@ -4,11 +4,11 @@ resource "azurerm_resource_group" "resource_group" {
 
   tags = { 
     Branch = "IITB"
-    Classification = "Unclassified"
+    Classification = var.classification
     Directorate = "BOSS"
-    Environment = "Development"
+    Environment = var.environment
     Project = "CPP-D"
-    ServiceOwner = "calvin.rodo@014gc.onmicrosoft.com"
+    ServiceOwner = var.service_owner
   }
 }
 

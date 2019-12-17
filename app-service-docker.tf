@@ -11,12 +11,12 @@ resource "azurerm_app_service_plan" "app_service_plan" {
   }
 
   tags = { 
-    Branch = "IITB"
-    Classification = "Unclassified"
-    Directorate = "BOSS"
-    Environment = "Development"
-    Project = "CPP-D"
-    ServiceOwner = "calvin.rodo@014gc.onmicrosoft.com"
+    Branch = azurerm_resource_group.resource_group.tags.Branch
+    Classification = azurerm_resource_group.resource_group.tags.Classification
+    Directorate = azurerm_resource_group.resource_group.tags.Directorate
+    Environment = azurerm_resource_group.resource_group.tags.Environment
+    Project = azurerm_resource_group.resource_group.tags.Project
+    ServiceOwner = azurerm_resource_group.resource_group.tags.ServiceOwner
   }
 }
 
@@ -40,11 +40,11 @@ resource "azurerm_app_service" "app_service" {
   }
 
   tags = { 
-    Branch = "IITB"
-    Classification = "Unclassified"
-    Directorate = "BOSS"
-    Environment = "Development"
-    Project = "CPP-D"
-    ServiceOwner = "calvin.rodo@014gc.onmicrosoft.com"
+    Branch = azurerm_resource_group.resource_group.tags.Branch
+    Classification = azurerm_resource_group.resource_group.tags.Classification
+    Directorate = azurerm_resource_group.resource_group.tags.Directorate
+    Environment = azurerm_resource_group.resource_group.tags.Environment
+    Project = azurerm_resource_group.resource_group.tags.Project
+    ServiceOwner = azurerm_resource_group.resource_group.tags.ServiceOwner
   }
 }
