@@ -5,12 +5,12 @@ resource "azurerm_container_registry" "container_registry" {
   sku                 = "Standard"
   admin_enabled       = true
   tags = { 
-    Branch = "IITB"
-    Classification = "Unclassified"
-    Directorate = "BOSS"
-    Environment = "Development"
-    Project = "CPP-D"
-    ServiceOwner = "calvin.rodo@014gc.onmicrosoft.com"
+    Branch = azurerm_resource_group.resource_group.tags.Branch
+    Classification = azurerm_resource_group.resource_group.tags.Classification
+    Directorate = azurerm_resource_group.resource_group.tags.Directorate
+    Environment = azurerm_resource_group.resource_group.tags.Environment
+    Project = azurerm_resource_group.resource_group.tags.Project
+    ServiceOwner = azurerm_resource_group.resource_group.tags.ServiceOwner
   }
 }
 
