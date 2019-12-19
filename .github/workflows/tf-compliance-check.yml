@@ -21,17 +21,12 @@ jobs:
       run: terraform init  -backend-config=backend.tfvars
     - name: 'Terraform Validate'
       run: terraform validate
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
     - name: 'Terraform Plan'
       env:
         URL: ${{ github.event.pull_request.comments_url }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run:  | 
         tfoutput=$(terraform plan  -out tf.plan)
-
         curl \
           -X POST \
           $URL \
