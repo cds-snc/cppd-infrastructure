@@ -32,6 +32,12 @@ jobs:
       run:  | 
         echo "Printing out URL"
         echo "${URL}"
+        curl \
+          -X POST \
+          $URL \
+          -H "Content-Type: application/json" \
+          -H "Authorization: token $GITHUB_TOKEN" \
+          --data '{ "body": "blah blah" }'
     - name: 'Generate JSON file'
       run:  terraform show -json tf.plan > tf.plan.json
     - name: Configuration Test
