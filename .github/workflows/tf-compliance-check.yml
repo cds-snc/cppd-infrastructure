@@ -30,7 +30,7 @@ jobs:
         URL: ${{ github.event.pull_request.comments_url }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run:  | 
-        tfoutput=$(terraform plan -out tf.plan)
+        tfoutput=$(terraform plan -detailed-exitcode -out tf.plan)
 
         if ($? == 2) 
         then 
