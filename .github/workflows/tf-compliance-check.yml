@@ -30,14 +30,18 @@ jobs:
         URL: ${{ github.event.pull_request.comments_url }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run:  | 
-        echo "Printing out URL"
-        echo "${URL}"
-        curl \
-          -X POST \
-          $URL \
-          -H "Content-Type: application/json" \
-          -H "Authorization: token $GITHUB_TOKEN" \
-          --data '{ "body": "blah blah" }'
+        tfoutput=$(terraform plan -out tf.plan)
+
+        if ($? == 2) 
+        then 
+          curl \
+            -X POST \
+            $URL \
+            -H "Content-Type: application/json" \
+            -H "Authorization:ktoken $GITHUB_TOKEN" \
+            --data '{ "body": "${tfoutput}" }'
+        fi
+        
     - name: 'Generate JSON file'
       run:  terraform show -json tf.plan > tf.plan.json
     - name: Configuration Test
