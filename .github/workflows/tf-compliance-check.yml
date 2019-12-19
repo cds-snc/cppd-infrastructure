@@ -31,7 +31,7 @@ jobs:
           -X POST \
           $URL \
           -H "Content-Type: application/json" \
-          -H "Authorization:ktoken $GITHUB_TOKEN" \
+          -H "Authorization:token $GITHUB_TOKEN" \
           --data '{ "body": "${tfoutput}" }'
         
     - name: 'Generate JSON file'
