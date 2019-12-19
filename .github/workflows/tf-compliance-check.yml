@@ -27,7 +27,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run:  | 
         echo "Printing out URL"
-        echo "$URL"
+        echo "${URL}"
     - name: 'Generate JSON file'
       run:  terraform show -json tf.plan > tf.plan.json
     - name: Configuration Test
