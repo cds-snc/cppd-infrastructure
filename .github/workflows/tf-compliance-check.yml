@@ -6,7 +6,7 @@ jobs:
   Compliance_Check:
 
     container:
-      image: hashicorp/terraform:0.12.17
+      image: gcr.io/cdssnc/azure-cli:latest
     runs-on: ubuntu-latest
 
     env:
@@ -22,7 +22,17 @@ jobs:
     - name: 'Terraform Validate'
       run: terraform validate
     - name: 'Terraform Plan'
-      run:  terraform plan -out tf.plan 
+      env:
+        URL: ${{ github.event.issue.comments_url }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run:  | 
+        terraform plan -out tf.plan 
+        curl \
+            -X POST \
+            $URL \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            --data '{ "body": "Test Worked!" }'
     - name: 'Generate JSON file'
       run:  terraform show -json tf.plan > tf.plan.json
     - name: Configuration Test
