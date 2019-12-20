@@ -27,7 +27,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run:  | 
         tfoutput=$(terraform plan  -out tf.plan)
-        eh
         curl \
           -X POST \
           $URL \
