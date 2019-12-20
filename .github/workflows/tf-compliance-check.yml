@@ -27,12 +27,13 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run:  | 
         tfoutput=$(terraform plan  -out tf.plan)
+        eh
         curl \
           -X POST \
           $URL \
           -H "Content-Type: application/json" \
           -H "Authorization:token $GITHUB_TOKEN" \
-          --data '{ "body": "$tfoutput" }'
+          --data '{ "body": $tfoutput }'
         
     - name: 'Generate JSON file'
       run:  terraform show -json tf.plan > tf.plan.json
