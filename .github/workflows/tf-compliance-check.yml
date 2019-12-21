@@ -35,7 +35,7 @@ jobs:
           $URL \
           -H "Content-Type: application/json" \
           -H "Authorization:token $GITHUB_TOKEN" \
-          -
+          -d @tf.out.txt
         
     - name: 'Generate JSON file'
       run:  terraform show -json tf.plan > tf.plan.json
