@@ -26,13 +26,14 @@ jobs:
         URL: ${{ github.event.pull_request.comments_url }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run:  | 
-        tfoutput=$(terraform plan  -out tf.plan)
+        jq -n --arg msg "$(terraform plan  -out tf.plan)" \
+          '{body : $msg }' > tf.out.txt
         curl \
           -X POST \
           $URL \
           -H "Content-Type: application/json" \
           -H "Authorization:token $GITHUB_TOKEN" \
-          --data '{ "body": $tfoutput }'
+          -d @tf.out.txt
         
     - name: 'Generate JSON file'
       run:  terraform show -json tf.plan > tf.plan.json
