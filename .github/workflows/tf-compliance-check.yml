@@ -26,10 +26,8 @@ jobs:
         URL: ${{ github.event.pull_request.comments_url }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run:  | 
-        jq -n --arg msg $( \
-            terraform plan  -out tf.plan | \
-            sed 's/\x1b\[[0-9;]*m//g' \
-          ) '{body : $msg }' > tf.out.txt
+        jq -n --arg msg $( terraform plan  -out tf.plan | sed 's/\x1b\[[0-9;]*m//g' ) \
+          '{body : $msg }' > tf.out.txt
         curl \
           -X POST \
           $URL \
