@@ -30,7 +30,7 @@ jobs:
           echo "${1}" | sed 's/\x1b\[[0-9;]*m//g'
         }
         tfoutput=$(terraform plan  -out tf.plan)
-        jq -n --arg msg "$(stripColours '${tfoutput}')" \
+        jq -n --arg msg "$(stripColours $tfoutput)" \
           '{body : $msg }' > tf.out.txt
         curl \
           -X POST \
