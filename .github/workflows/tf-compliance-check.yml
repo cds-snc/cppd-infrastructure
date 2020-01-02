@@ -25,7 +25,7 @@ jobs:
       env:
         URL: ${{ github.event.pull_request.comments_url }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run:  terraform_plan.sh
+      run:  ./terraform_plan.sh
     - name: 'Generate JSON file'
       run:  terraform show -json tf.plan > tf.plan.json
     - name: Configuration Test
