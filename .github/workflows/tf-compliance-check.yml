@@ -25,20 +25,7 @@ jobs:
       env:
         URL: ${{ github.event.pull_request.comments_url }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run:  | 
-        function stripColours {
-          echo "${1}" | sed 's/\x1b\[[0-9;]*m//g'
-        }
-        tfoutput=$(terraform plan  -out tf.plan)
-        tfcleared=$(stripColours "${tfoutput}")
-        jq -n --arg msg "```\n $tfcleared \n ```" '{body : $msg }' > tf.out.txt
-        curl \
-          -X POST \
-          $URL \
-          -H "Content-Type: application/json" \
-          -H "Authorization:token $GITHUB_TOKEN" \
-          -d @tf.out.txt
-        
+      run:  terraform_plan.sh
     - name: 'Generate JSON file'
       run:  terraform show -json tf.plan > tf.plan.json
     - name: Configuration Test
