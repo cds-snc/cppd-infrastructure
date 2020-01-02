@@ -31,7 +31,7 @@ jobs:
         }
         tfoutput=$(terraform plan  -out tf.plan)
         tfcleared=$(stripColours "${tfoutput}")
-        jq -n --arg msg "$tfcleared" '{body : $msg }' > tf.out.txt
+        jq -n --arg msg "$tfcleared" '{body : "```\n $msg \n```" }' > tf.out.txt
         curl \
           -X POST \
           $URL \
