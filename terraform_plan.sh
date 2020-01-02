@@ -6,7 +6,6 @@ function stripColours {
 
 function terraformPlan {
   # Gather the output of `terraform plan`.
-  echo "plan: info: planning Terraform configuration in ${tfWorkingDir}"
   planOutput=$(terraform plan -detailed-exitcode -input=false -out=tf.plan ${*} 2>&1)
   planExitCode=${?}
   planHasChanges=false
@@ -14,7 +13,7 @@ function terraformPlan {
 
   # Exit code of 0 indicates success with no changes. Print the output and exit.
   if [ ${planExitCode} -eq 0 ]; then
-    echo "plan: info: successfully planned Terraform configuration in ${tfWorkingDir}"
+    echo "plan: info: successfully planned Terraform configuration"
     echo "${planOutput}"
     echo
     exit ${planExitCode}
@@ -26,7 +25,7 @@ function terraformPlan {
     planExitCode=0
     planHasChanges=true
     planCommentStatus="Success"
-    echo "plan: info: successfully planned Terraform configuration in ${tfWorkingDir}"
+    echo "plan: info: successfully planned Terraform configuration"
     echo "${planOutput}"
     echo
     if echo "${planOutput}" | egrep '^-{72}$' &> /dev/null; then
@@ -40,13 +39,13 @@ function terraformPlan {
 
   # Exit code of !0 indicates failure.
   if [ ${planExitCode} -ne 0 ]; then
-    echo "plan: error: failed to plan Terraform configuration in ${tfWorkingDir}"
+    echo "plan: error: failed to plan Terraform configuration"
     echo "${planOutput}"
     echo
   fi
 
   # Comment on the pull request if necessary.
-  if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && [ "${tfComment}" == "1" ] && ([ "${planHasChanges}" == "true" ] || [ "${planCommentStatus}" == "Failed" ]); then
+  if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && ([ "${planHasChanges}" == "true" ] || [ "${planCommentStatus}" == "Failed" ]); then
     planCommentWrapper="#### \`terraform plan\` ${planCommentStatus}
 <details><summary>Show Output</summary>
 
@@ -56,7 +55,7 @@ ${planOutput}
 
 </details>
 
-*Workflow: \`${GITHUB_WORKFLOW}\`, Action: \`${GITHUB_ACTION}\`, Working Directory: \`${tfWorkingDir}\`*"
+*Workflow: \`${GITHUB_WORKFLOW}\`, Action: \`${GITHUB_ACTION}\`*"
 
     planCommentWrapper=$(stripColors "${planCommentWrapper}")
     echo "plan: info: creating JSON"
@@ -66,6 +65,5 @@ ${planOutput}
     echo "${planPayload}" | curl -s -S -H "Authorization: token ${GITHUB_TOKEN}" --header "Content-Type: application/json" --data @- "${planCommentsURL}" > /dev/null
   fi
 
-  echo ::set-output name=tf_actions_plan_has_changes::${planHasChanges}
   exit ${planExitCode}
 }
