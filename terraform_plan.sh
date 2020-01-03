@@ -67,3 +67,6 @@ ${planOutput}
 
   exit ${planExitCode}
 }
+
+
+terraformPlan
