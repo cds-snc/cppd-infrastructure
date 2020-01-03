@@ -1,12 +1,12 @@
 name: OpenPolicyAgent Compliance Checks 
 
-on: [push]
+on: [pull_request]
 
 jobs:
   Compliance_Check:
 
     container:
-      image: hashicorp/terraform:0.12.17
+      image: gcr.io/cdssnc/azure-cli:latest
     runs-on: ubuntu-latest
 
     env:
@@ -22,7 +22,10 @@ jobs:
     - name: 'Terraform Validate'
       run: terraform validate
     - name: 'Terraform Plan'
-      run:  terraform plan -out tf.plan 
+      env:
+        URL: ${{ github.event.pull_request.comments_url }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run:  ./terraform_plan.sh
     - name: 'Generate JSON file'
       run:  terraform show -json tf.plan > tf.plan.json
     - name: Configuration Test
