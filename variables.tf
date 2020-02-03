@@ -19,11 +19,11 @@ variable "environment" {
   description = "(Required) Value for the environment tag"
 }
 
-variable "service_owner" { 
+variable "service_owner" {
   description = "(Required) Value for the service owner tag"
 }
 
-variable "classification" { 
+variable "classification" {
   description = "(Required) the value for the classification tag"
 }
 #variable "my_sql_master_password" {

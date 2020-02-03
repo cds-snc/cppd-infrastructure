@@ -7,7 +7,8 @@ minimum_tags = {
     "Project",
     "Directorate",
     "Environment",
-    "ServiceOwner"
+    "ServiceOwner",
+    "CsdId"
     }
 
 tags_contain_proper_keys(tags) {

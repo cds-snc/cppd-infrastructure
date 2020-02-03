@@ -10,14 +10,7 @@ resource "azurerm_app_service_plan" "app_service_plan" {
     size = "B1"
   }
 
-  tags = { 
-    Branch = azurerm_resource_group.resource_group.tags.Branch
-    Classification = azurerm_resource_group.resource_group.tags.Classification
-    Directorate = azurerm_resource_group.resource_group.tags.Directorate
-    Environment = azurerm_resource_group.resource_group.tags.Environment
-    Project = azurerm_resource_group.resource_group.tags.Project
-    ServiceOwner = azurerm_resource_group.resource_group.tags.ServiceOwner
-  }
+  tags = merge ( local.common_tags)
 }
 
 resource "azurerm_app_service" "app_service" {
@@ -39,12 +32,5 @@ resource "azurerm_app_service" "app_service" {
     "DOCKER_REGISTRY_SERVER_PASSWORD" = azurerm_container_registry.container_registry.admin_password
   }
 
-  tags = { 
-    Branch = azurerm_resource_group.resource_group.tags.Branch
-    Classification = azurerm_resource_group.resource_group.tags.Classification
-    Directorate = azurerm_resource_group.resource_group.tags.Directorate
-    Environment = azurerm_resource_group.resource_group.tags.Environment
-    Project = azurerm_resource_group.resource_group.tags.Project
-    ServiceOwner = azurerm_resource_group.resource_group.tags.ServiceOwner
-  }
+  tags = merge ( local.common_tags )
 }
