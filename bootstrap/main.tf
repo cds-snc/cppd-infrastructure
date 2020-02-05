@@ -15,8 +15,8 @@ resource "azurerm_resource_group" "resource_group" {
     Branch = "IITB"
     Classification = "Unclassified"
     Directorate = "BOSS"
-    Environment = "Development"
-    Project = "CPP-D"
+    Environment = "Sandbox"
+    Project = "DTS"
     ServiceOwner = "calvin.rodo@014gc.onmicrosoft.com"
   }
 }
