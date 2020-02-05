@@ -17,7 +17,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: 'Terraform Init & Validate'
+    - name: 'Terraform Init'
       run: terraform init  -backend-config=backend.tfvars
     - name: 'Terraform Validate'
       run: terraform validate

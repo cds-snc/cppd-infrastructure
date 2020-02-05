@@ -2,7 +2,7 @@ package names
 import data.tf_helper
 
 has_esdc_prefix(name) { 
-    re_match("^EsDC[A-Za-z]*",name)
+    re_match("^Es[A-Za-z]*",name)
 }
 
 has_resource_group_suffix(name) { 
