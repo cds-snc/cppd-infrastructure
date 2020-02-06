@@ -1,4 +1,12 @@
+data "azurerm_key_vault" "central-key-vault" {
+  name                = "central-key-vault"
+  resource_group_name = azurerm_resource_group.resource_group.name
+}
 
+data "azurerm_key_vault_secret" "plsql-admin-pass" {
+  name         = "psqladmin"
+  key_vault_id = data.azurerm_key_vault.central-key-vault.id
+}
 
 resource "azurerm_postgresql_server" "postgres" {
   name                = "cppd-postgresql-server"
@@ -14,8 +22,8 @@ resource "azurerm_postgresql_server" "postgres" {
     auto_grow             = "Disabled"
   }
 
-  administrator_login          = "foo"
-  administrator_login_password = "ZeHqtW8o7B0i0dM!QO3xQIV1zWAuzEjAQMcI%"
+  administrator_login          = "psqladmin"
+  administrator_login_password = data.azurerm_key_vault_secret.plsql-admin-pass.value
   version                      = "11"
   ssl_enforcement              = "Enabled"
 
