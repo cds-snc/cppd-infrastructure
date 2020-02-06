@@ -1,6 +1,6 @@
 # NOTE: the Name used for Redis needs to be globally unique
 resource "azurerm_redis_cache" "session_store" {
-  name                = "example-cache"
+  name                = "${local.nameprefix}cache"
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
   capacity            = 2

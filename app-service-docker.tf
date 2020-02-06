@@ -1,5 +1,5 @@
 resource "azurerm_app_service_plan" "app_service_plan" {
-  name                = "EsDC${var.name}asp"
+  name                = "${local.nameprefix}asp"
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
   kind                = "Linux"
@@ -14,7 +14,7 @@ resource "azurerm_app_service_plan" "app_service_plan" {
 }
 
 resource "azurerm_app_service" "app_service" {
-  name                = "EsDC${var.name}appservice"
+  name                = "${local.nameprefix}appservice"
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
   app_service_plan_id = azurerm_app_service_plan.app_service_plan.id
