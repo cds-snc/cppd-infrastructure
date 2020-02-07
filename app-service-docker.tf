@@ -30,18 +30,10 @@ resource "azurerm_app_service" "app_service" {
     "DOCKER_REGISTRY_SERVER_URL"      = "https://${azurerm_container_registry.container_registry.login_server}"
     "DOCKER_REGISTRY_SERVER_USERNAME" = azurerm_container_registry.container_registry.admin_username
     "DOCKER_REGISTRY_SERVER_PASSWORD" = azurerm_container_registry.container_registry.admin_password
-  }
-
-  connection_string {
-    name  = "DATABASE_URL"
-    type  = "PostgreSQL"
-    value = data.azurerm_key_vault_secret.postgres-connection-string.value
-  }
-
-  connection_string {
-    name  = "SESSION_ADAPTER_URL"
-    type  = "RedisCache"
-    value = data.azurerm_key_vault_secret.redis-connection-string.value
+    "SESSION_ADAPTER"                 = "@sailshq/connect-redis"
+    "AUTO_MIGRATE_MODE"               = "alter"
+    "DATABASE_URL"                    = data.azurerm_key_vault_secret.postgres-connection-string.value
+    "SESSION_ADAPTER_URL"             = data.azurerm_key_vault_secret.redis-connection-string.value
   }
 
   tags = merge ( local.common_tags )

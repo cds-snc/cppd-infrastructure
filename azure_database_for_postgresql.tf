@@ -1,6 +1,6 @@
 
 resource "azurerm_postgresql_server" "postgres" {
-  name                = "cppd-postgresql-server"
+  name                = "cppd-postgres-server"
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
 
@@ -22,10 +22,17 @@ resource "azurerm_postgresql_server" "postgres" {
 }
 
 resource "azurerm_postgresql_database" "postgres" {
-  name                = "exampledb"
+  name                = "cppd-postgres-db"
   resource_group_name = azurerm_resource_group.resource_group.name
   server_name         = azurerm_postgresql_server.postgres.name
   charset             = "UTF8"
   collation           = "English_United States.1252"
 }
 
+resource "azurerm_key_vault_secret" "postgres_connection_string" {
+  name         = "postgresconnection"
+  value        = "postgres://${azurerm_postgresql_server.postgres.administrator_login}@${azurerm_postgresql_server.postgres.name}:${azurerm_postgresql_server.postgres.administrator_login_password}@host=${azurerm_postgresql_server.postgres.name}.postgres.database.azure.com"
+  key_vault_id = data.azurerm_key_vault.central-key-vault.id
+
+  tags = merge(local.common_tags)
+}
