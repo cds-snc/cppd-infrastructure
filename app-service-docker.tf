@@ -36,5 +36,17 @@ resource "azurerm_app_service" "app_service" {
     "SESSION_ADAPTER_URL"             = data.azurerm_key_vault_secret.redis-connection-string.value
   }
 
+  connection_string {
+    name  = "DATABASE_URL"
+    type  = "PostgreSQL"
+    value = data.azurerm_key_vault_secret.postgres-connection-string.value
+  }
+
+  connection_string {
+    name  = "SESSION_ADAPTER_URL"
+    type  = "RedisCache"
+    value = data.azurerm_key_vault_secret.redis-connection-string.value
+  }
+
   tags = merge ( local.common_tags )
 }
