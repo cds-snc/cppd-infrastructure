@@ -1,12 +1,3 @@
-data "azurerm_key_vault" "central-key-vault" {
-  name                = "central-key-vault"
-  resource_group_name = azurerm_resource_group.resource_group.name
-}
-
-data "azurerm_key_vault_secret" "plsql-admin-pass" {
-  name         = "psqladmin"
-  key_vault_id = data.azurerm_key_vault.central-key-vault.id
-}
 
 resource "azurerm_postgresql_server" "postgres" {
   name                = "cppd-postgresql-server"
