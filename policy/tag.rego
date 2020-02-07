@@ -17,7 +17,6 @@ tags_contain_proper_keys(tags) {
     leftover == set()
 }
 
-
 tags_contain_minimum_set[i] = resources {
     tags := tfh.changeset[i].change.after.tags
     resources := [ 
@@ -26,3 +25,4 @@ tags_contain_minimum_set[i] = resources {
         not tags_contain_proper_keys(tags)
     ]
 }
+

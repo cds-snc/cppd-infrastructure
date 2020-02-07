@@ -9,6 +9,24 @@ import data.classifications as class
 
 
 deny[msg] { 
+    resources := names.invalid_sandbox_prefix[_]
+    resources != []
+    msg := sprintf("Invalid Sandbox Prefix: %v", [resources])
+}
+
+deny[msg] { 
+    resources := names.invalid_canada_central_prefix[_]
+    resources != []
+    msg := sprintf("Invalid Canada Central Prefix: %v", [resources])
+}
+
+deny[msg] { 
+    resources := names.invalid_canada_east_prefix[_]
+    resources != []
+    msg := sprintf("Invalid Canada East Prefix: %v", [resources])
+}
+
+deny[msg] { 
     resources := class.no_valid_classification_set[_]
     resources != []
     msg := sprintf("Invalid Classification: %v",[resources])
@@ -53,6 +71,7 @@ deny[msg] {
 deny[msg] {
     resources := names.names_with_invalid_prefix[_]
     resources != []
-    msg := sprintf("Invalid name Prefix (should be EsDC): %v", [resources])
+
+    msg := sprintf("Invalid name Prefix (should be Es or es): %v", [resources])
 }
 

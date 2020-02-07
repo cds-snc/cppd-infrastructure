@@ -8,4 +8,6 @@ locals {
     Project        = "DTS"
     ServiceOwner   = var.service_owner
   }
+
+  nameprefix = "Es${var.environmentprefix}${var.locationprefix}${var.name}"
 }

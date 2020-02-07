@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "resource_group" {
-  name     = "EsDC${var.name}rg"
+  name     = "${local.nameprefix}rgcal"
   location = var.location
 
   tags = merge(local.common_tags)
