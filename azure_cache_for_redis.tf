@@ -13,3 +13,11 @@ resource "azurerm_redis_cache" "session_store" {
 
   tags = merge(local.common_tags)
 }
+
+resource "azurerm_key_vault_secret" "redis_connection_string" {
+  name         = "redisconnection"
+  value        = "redis://${azurerm_redis_cache.session_store.name}:6380,password=${azurerm_redis_cache.session_store.primary_access_key},ssl=True,abortConnect=False"
+  key_vault_id = data.azurerm_key_vault.central-key-vault.id
+
+  tags = merge(local.common_tags)
+}
