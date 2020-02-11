@@ -4,7 +4,7 @@ resource "azurerm_postgresql_server" "postgres" {
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
 
-  sku_name = "B_Gen5_2"
+  sku_name = "GP_Gen5_2"
 
   storage_profile {
     storage_mb            = 5120
@@ -29,10 +29,10 @@ resource "azurerm_postgresql_database" "postgres" {
   collation           = "English_United States.1252"
 }
 
-resource "azurerm_key_vault_secret" "postgres_connection_string" {
-  name         = "postgresconnection"
-  value        = "postgres://${azurerm_postgresql_server.postgres.administrator_login}@${azurerm_postgresql_server.postgres.name}:${azurerm_postgresql_server.postgres.administrator_login_password}@host=${azurerm_postgresql_server.postgres.name}.postgres.database.azure.com"
-  key_vault_id = data.azurerm_key_vault.central-key-vault.id
-
-  tags = merge(local.common_tags)
+resource "azurerm_postgresql_virtual_network_rule" "postgres_vnet_rule" {
+  name                                 = "${lower(local.nameprefix)}postgresqlvnetrule"
+  resource_group_name                  = azurerm_resource_group.resource_group.name
+  server_name                          = azurerm_postgresql_server.postgres.name
+  subnet_id                            = azurerm_subnet.subnet.id
+  ignore_missing_vnet_service_endpoint = true
 }
