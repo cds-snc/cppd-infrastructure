@@ -14,17 +14,23 @@ resource "azurerm_app_service_plan" "app_service_plan" {
 }
 
 resource "azurerm_app_service" "app_service" {
-  name                = "${local.nameprefix}appservice"
-  location            = azurerm_resource_group.resource_group.location
-  resource_group_name = azurerm_resource_group.resource_group.name
-  app_service_plan_id = azurerm_app_service_plan.app_service_plan.id
+  name                   = "${local.nameprefix}appservice"
+  location               = azurerm_resource_group.resource_group.location
+  resource_group_name    = azurerm_resource_group.resource_group.name
+  app_service_plan_id    = azurerm_app_service_plan.app_service_plan.id
 
   site_config {
-    linux_fx_version = "DOCKER|${azurerm_container_registry.container_registry.login_server}/${var.docker_image}:${var.docker_image_tag}"
-    http2_enabled    = true
-    always_on        = true
+    linux_fx_version     = "DOCKER|${azurerm_container_registry.container_registry.login_server}/${var.docker_image}:${var.docker_image_tag}"
+    http2_enabled        = true
+    always_on            = true
     virtual_network_name = azurerm_virtual_network.virtual_network.name
+    
+    ip_restriction {
+      virtual_network_subnet_id = azurerm_subnet.subnet.id
+    }
+    
   }
+
 
   app_settings = {
     "DOCKER_ENABLE_CI"                = "true"

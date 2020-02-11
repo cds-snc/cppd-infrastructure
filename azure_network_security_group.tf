@@ -11,17 +11,6 @@ resource "azurerm_network_security_group" "network_security_group" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "*"
-    source_address_prefix      = "10.0.0.0/16"
-    destination_address_prefix = "10.0.0.0/16"
-  }
-  security_rule {
-    name                       = "${lower(local.nameprefix)}denyinbound"
-    priority                   = 4096
-    direction                  = "Inbound"
-    access                     = "Deny"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "*"
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
@@ -34,8 +23,8 @@ resource "azurerm_network_security_group" "network_security_group" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "*"
-    source_address_prefix      = "10.0.0.0/16"
-    destination_address_prefix = "10.0.0.0/16"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
   }
 
   tags = merge(local.common_tags)
