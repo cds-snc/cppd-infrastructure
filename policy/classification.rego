@@ -6,7 +6,8 @@ classification_codes = {
     "ULL",
     "UMM",
     "UHH",
-    "PBMM"
+    "PBMM",
+    "Unclassified"
 }
 
 valid_code[classification] { 

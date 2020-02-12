@@ -7,7 +7,8 @@ minimum_tags = {
     "Project",
     "Directorate",
     "Environment",
-    "ServiceOwner"
+    "ServiceOwner",
+    "CsdId"
     }
 
 tags_contain_proper_keys(tags) {
@@ -15,7 +16,6 @@ tags_contain_proper_keys(tags) {
     leftover := minimum_tags - keys
     leftover == set()
 }
-
 
 tags_contain_minimum_set[i] = resources {
     tags := tfh.changeset[i].change.after.tags
@@ -25,3 +25,4 @@ tags_contain_minimum_set[i] = resources {
         not tags_contain_proper_keys(tags)
     ]
 }
+

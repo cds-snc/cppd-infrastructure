@@ -1,17 +1,10 @@
 resource "azurerm_container_registry" "container_registry" {
-  name                = "EsDC${var.name}r"
+  name                = "${local.nameprefix}r"
   resource_group_name = azurerm_resource_group.resource_group.name
   location            = azurerm_resource_group.resource_group.location
   sku                 = "Standard"
   admin_enabled       = true
-  tags = { 
-    Branch = azurerm_resource_group.resource_group.tags.Branch
-    Classification = azurerm_resource_group.resource_group.tags.Classification
-    Directorate = azurerm_resource_group.resource_group.tags.Directorate
-    Environment = azurerm_resource_group.resource_group.tags.Environment
-    Project = azurerm_resource_group.resource_group.tags.Project
-    ServiceOwner = azurerm_resource_group.resource_group.tags.ServiceOwner
-  }
+  tags                = merge(local.common_tags)
 }
 
 output "container_registry_id" {

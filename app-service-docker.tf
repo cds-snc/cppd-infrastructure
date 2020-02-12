@@ -1,5 +1,5 @@
 resource "azurerm_app_service_plan" "app_service_plan" {
-  name                = "EsDC${var.name}asp"
+  name                = "${local.nameprefix}asp"
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
   kind                = "Linux"
@@ -7,44 +7,35 @@ resource "azurerm_app_service_plan" "app_service_plan" {
 
   sku {
     tier = "Standard"
-    size = "B1"
+    size = "S1"
   }
 
-  tags = { 
-    Branch = azurerm_resource_group.resource_group.tags.Branch
-    Classification = azurerm_resource_group.resource_group.tags.Classification
-    Directorate = azurerm_resource_group.resource_group.tags.Directorate
-    Environment = azurerm_resource_group.resource_group.tags.Environment
-    Project = azurerm_resource_group.resource_group.tags.Project
-    ServiceOwner = azurerm_resource_group.resource_group.tags.ServiceOwner
-  }
+  tags = merge ( local.common_tags)
 }
 
 resource "azurerm_app_service" "app_service" {
-  name                = "EsDC${var.name}appservice"
-  location            = azurerm_resource_group.resource_group.location
-  resource_group_name = azurerm_resource_group.resource_group.name
-  app_service_plan_id = azurerm_app_service_plan.app_service_plan.id
+  name                   = "${local.nameprefix}appservice"
+  location               = azurerm_resource_group.resource_group.location
+  resource_group_name    = azurerm_resource_group.resource_group.name
+  app_service_plan_id    = azurerm_app_service_plan.app_service_plan.id
 
   site_config {
-    linux_fx_version = "DOCKER|${azurerm_container_registry.container_registry.login_server}/${var.docker_image}:${var.docker_image_tag}"
-    http2_enabled    = true
-    always_on        = true
+    linux_fx_version     = "DOCKER|${azurerm_container_registry.container_registry.login_server}/${var.docker_image}:${var.docker_image_tag}"
+    http2_enabled        = true
+    always_on            = true
+    virtual_network_name = azurerm_virtual_network.virtual_network.name    
   }
+
 
   app_settings = {
     "DOCKER_ENABLE_CI"                = "true"
     "DOCKER_REGISTRY_SERVER_URL"      = "https://${azurerm_container_registry.container_registry.login_server}"
     "DOCKER_REGISTRY_SERVER_USERNAME" = azurerm_container_registry.container_registry.admin_username
     "DOCKER_REGISTRY_SERVER_PASSWORD" = azurerm_container_registry.container_registry.admin_password
+    "SESSION_ADAPTER"                 = "connect-pg-simple"
+    "AUTO_MIGRATE_MODE"               = "alter"
+    "DATABASE_URL"                    = data.azurerm_key_vault_secret.postgres_connection_string.value
   }
 
-  tags = { 
-    Branch = azurerm_resource_group.resource_group.tags.Branch
-    Classification = azurerm_resource_group.resource_group.tags.Classification
-    Directorate = azurerm_resource_group.resource_group.tags.Directorate
-    Environment = azurerm_resource_group.resource_group.tags.Environment
-    Project = azurerm_resource_group.resource_group.tags.Project
-    ServiceOwner = azurerm_resource_group.resource_group.tags.ServiceOwner
-  }
+  tags = merge ( local.common_tags )
 }

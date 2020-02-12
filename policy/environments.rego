@@ -1,9 +1,11 @@
 package environments 
 
 import data.tf_helper as tfh
+
 environments = [
     "LAB", # Laboratory
     "SBX", # Sandbox
+    "Sandbox",
     "DEV", # Development
     "TST", # Test-QA
     "UAT", # User Acceptance Testing
