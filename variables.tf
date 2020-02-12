@@ -2,6 +2,9 @@ variable "name" {
   description = "(Required) Specify the Service Name."
 }
 
+variable "infra-version" {
+  description = "(Required) Version of the infrastructure."
+}
 variable "location" {
   description = "(Required) Specify the location for these resources. Changing this forces a new resource to be created."
   default     = "canadacentral"
