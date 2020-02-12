@@ -23,12 +23,7 @@ resource "azurerm_app_service" "app_service" {
     linux_fx_version     = "DOCKER|${azurerm_container_registry.container_registry.login_server}/${var.docker_image}:${var.docker_image_tag}"
     http2_enabled        = true
     always_on            = true
-    virtual_network_name = azurerm_virtual_network.virtual_network.name
-    
-    # ip_restriction {
-    #   virtual_network_subnet_id = azurerm_subnet.subnet.id
-    # }
-    
+    virtual_network_name = azurerm_virtual_network.virtual_network.name    
   }
 
 
