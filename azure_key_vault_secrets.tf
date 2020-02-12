@@ -8,12 +8,7 @@ data "azurerm_key_vault_secret" "plsql-admin-pass" {
   key_vault_id = data.azurerm_key_vault.central-key-vault.id
 }
 
-data "azurerm_key_vault_secret" "postgres-connection-string" {
-  name         = "postgresconnection"
-  key_vault_id = data.azurerm_key_vault.central-key-vault.id
-}
-
-data "azurerm_key_vault_secret" "redis-connection-string" {
-  name         = "redisconnection"
+data "azurerm_key_vault_secret" "postgres_connection_string" {
+  name         = "${lower(local.nameprefix)}postgresconnection"
   key_vault_id = data.azurerm_key_vault.central-key-vault.id
 }
