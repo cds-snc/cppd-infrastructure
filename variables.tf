@@ -37,6 +37,11 @@ variable "service_owner" {
 variable "classification" {
   description = "(Required) the value for the classification tag"
 }
+
+variable "vnet_address_space" {
+  description = "The virtual network address space"
+}
+
 #variable "my_sql_master_password" {
 #  description = "MySql master password"
 #}
