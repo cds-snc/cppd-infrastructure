@@ -29,10 +29,11 @@ resource "azurerm_postgresql_database" "postgres" {
   collation           = "English_United States.1252"
 }
 
-resource "azurerm_postgresql_virtual_network_rule" "postgres_vnet_rule" {
-  name                                 = "${lower(local.nameprefix)}postgresqlvnetrule"
-  resource_group_name                  = azurerm_resource_group.resource_group.name
-  server_name                          = azurerm_postgresql_server.postgres.name
-  subnet_id                            = azurerm_subnet.subnet.id
-  ignore_missing_vnet_service_endpoint = true
+resource "azurerm_postgresql_firewall_rule" "postgres_firewall_rule" {
+  for_each            = toset(split(",", azurerm_app_service.app_service.possible_outbound_ip_addresses))
+  name                = "appserviceip"
+  resource_group_name = azurerm_resource_group.resource_group.name
+  server_name         = azurerm_postgresql_server.postgres.name
+  start_ip_address    = each.value
+  end_ip_address      = each.value
 }

@@ -7,5 +7,5 @@ environment      = "Sandbox"
 environmentprefix = "S"
 location         = "canadacentral"
 locationprefix           = "C"
-
+infra-version    = "0.0.0"
 vnet_address_space = "192.168.0.0/16"
