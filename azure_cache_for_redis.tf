@@ -14,12 +14,3 @@ resource "azurerm_redis_cache" "session_store" {
 
   tags = merge(local.common_tags)
 }
-
-resource "azurerm_redis_firewall_rule" "redis_firewall_rule" {
-  for_each            = toset(split(",", azurerm_app_service.app_service.possible_outbound_ip_addresses))
-  name                = "appserviceip"
-  resource_group_name = azurerm_resource_group.resource_group.name
-  redis_cache_name    = azurerm_redis_cache.session_store.name
-  start_ip_address    = each.value
-  end_ip_address      = each.value
-}
