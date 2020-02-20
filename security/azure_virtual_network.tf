@@ -22,3 +22,14 @@ resource "azurerm_subnet_network_security_group_association" "subnet_nsg_associa
   subnet_id                 = azurerm_subnet.subnet.id
   network_security_group_id = azurerm_network_security_group.network_security_group.id
 }
+
+### Postgres Vnet Rule ###
+resource "azurerm_postgresql_virtual_network_rule" "postgres_vnet_rule" {
+  name                                 = "${lower(local.nameprefix)}postgresqlvnetrule"
+  resource_group_name                  = azurerm_resource_group.resource_group.name
+  server_name                          = azurerm_postgresql_server.postgres.name
+  subnet_id                            = azurerm_subnet.subnet.id
+  ignore_missing_vnet_service_endpoint = true
+}
+
+### Redis Vnet Rule ###

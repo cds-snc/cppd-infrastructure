@@ -71,6 +71,19 @@ If everything looks good, apply the changes.
 
 `terraform apply`
 
+Once the basic infrastructure is up, firewall rules need to be applied to the database and session store in order for the app service to be able to communicate with them.
+
+```sh
+cd firewall_rules
+```
+There is a `locals.tf` file that contains references to the previously created infrastructure, you will need to verify that the names of each resource are correct before continuing.
+
+```sh
+terraform init
+terraform plan
+terraform apply
+```
+
 Your infrastructure should now be running. The previous command will output some information you will need to deploy your container.
 
 ## 3. Deploy your container

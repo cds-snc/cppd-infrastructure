@@ -1,5 +1,5 @@
 resource "azurerm_container_registry_webhook" "container_registry_webhook" {
-  name                = "autodeploy"
+  name                = "essccppdwebhook"
   resource_group_name = var.resource_group
   registry_name       = var.container_registry
   location            = var.location

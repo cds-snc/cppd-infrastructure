@@ -1,3 +1,3 @@
-resource_group     = "CPPDMedicalReport-resources-RG"
-container_registry = "CPPDMedicalReportRegistry"
+resource_group     = "EsSCCPPDrgkyle"
+container_registry = "EsSCCPPDr"
 location           = "canadacentral"
