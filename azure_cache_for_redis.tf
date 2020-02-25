@@ -6,7 +6,7 @@ resource "azurerm_redis_cache" "session_store" {
   resource_group_name = azurerm_resource_group.resource_group.name
   capacity            = 2
   family              = "C"
-  sku_name            = "Standard"
+  sku_name            = "Basic"
   enable_non_ssl_port = false
   minimum_tls_version = "1.2"
 

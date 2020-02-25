@@ -6,7 +6,7 @@ jobs:
   Compliance_Check:
 
     container:
-      image: gcr.io/cdssnc/azure-cli:latest
+      image: gcr.io/cdssnc/azure-cli:0.0.3
     runs-on: ubuntu-latest
 
     env:

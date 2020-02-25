@@ -37,6 +37,12 @@ resource "azurerm_app_service" "app_service" {
     "AUTO_MIGRATE_MODE"               = "alter"
     "DATABASE_URL"                    = data.azurerm_key_vault_secret.postgres_connection_string.value
     "SESSION_ADAPTER_URL"             = data.azurerm_key_vault_secret.redis_connection_string.value
+    "FEATURE_REDIS_SSL"               = "true"
+    "FEATURE_AZURE_PG_SSL"            = "true"
+    "FEATURE_AZ_STORAGE"              = "true"
+    "AZURE_STORAGE_ACCOUNT"           = azurerm_storage_account.file_upload.name
+    "AZURE_STORAGE_ACCESS_KEY"        = azurerm_storage_account.file_upload.primary_access_key
+    "AZURE_STORAGE_CONTAINER"         = azurerm_storage_container.file_upload.name
   }
 
   tags = merge ( local.common_tags )
