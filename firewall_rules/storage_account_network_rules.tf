@@ -4,6 +4,4 @@ resource "azurerm_storage_account_network_rules" "storage_account_firewall_rules
     
     default_action             = "Deny"
     ip_rules                   = local.appserviceips
-    # virtual_network_subnet_ids = [azurerm_subnet.test.id]
-    # bypass                     = ["Metrics"]
 }
