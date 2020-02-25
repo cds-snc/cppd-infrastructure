@@ -35,3 +35,8 @@ data "azurerm_redis_cache" "session_store" {
     name                = "${local.nameprefix}cache"
     resource_group_name = data.azurerm_resource_group.resource_group.name
 }
+
+data "azurerm_storage_account" "storage_account" {
+    name                = "${lower(local.nameprefix)}cppdfileupload"
+    resource_group_name = data.azurerm_resource_group.resource_group.name
+}
