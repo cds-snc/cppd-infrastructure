@@ -27,6 +27,9 @@ resource "azurerm_app_service" "app_service" {
     # virtual_network_name = azurerm_virtual_network.virtual_network.name    
   }
 
+  identity { 
+    type = "SystemAssigned"
+  }
 
   app_settings = {
     "DOCKER_ENABLE_CI"                = "true"
@@ -35,8 +38,9 @@ resource "azurerm_app_service" "app_service" {
     "DOCKER_REGISTRY_SERVER_PASSWORD" = azurerm_container_registry.container_registry.admin_password
     "SESSION_ADAPTER"                 = "@sailshq/connect-redis"
     "AUTO_MIGRATE_MODE"               = "alter"
-    "DATABASE_URL"                    = data.azurerm_key_vault_secret.postgres_connection_string.value
-    "SESSION_ADAPTER_URL"             = data.azurerm_key_vault_secret.redis_connection_string.value
+    ## Look up from secret
+    "DATABASE_URL"                    = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault.central-key-vault.vault_uri}secrets/${data.azurerm_key_vault_secret.postgres_connection_string.name}/${data.azurerm_key_vault_secret.postgres_connection_string.version})" 
+    "SESSION_ADAPTER_URL"             = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault.central-key-vault.vault_uri}secrets/${data.azurerm_key_vault_secret.redis_connection_string.name}/${data.azurerm_key_vault_secret.redis_connection_string.version})" 
     "FEATURE_REDIS_SSL"               = "true"
     "FEATURE_AZURE_PG_SSL"            = "true"
     "FEATURE_AZ_STORAGE"              = "true"

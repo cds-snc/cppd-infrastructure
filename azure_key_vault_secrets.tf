@@ -17,8 +17,3 @@ data "azurerm_key_vault_secret" "redis_connection_string" {
   name         = "${lower(local.nameprefix)}redisconnection"
   key_vault_id = data.azurerm_key_vault.central-key-vault.id
 }
-
-data "azurerm_key_vault_secret" "postgres_root_cert" {
-  name         = "postgresrootcert"
-  key_vault_id = data.azurerm_key_vault.central-key-vault.id
-}
