@@ -11,10 +11,10 @@ variable "location" {
 }
 
 #TODO: Automate this away
-variable "locationprefix" { 
+variable "locationprefix" {
   description = "(Required) Must align with location"
-  default = "C"
-}           
+  default     = "C"
+}
 
 variable "docker_image" {
   description = "(Required) Specify the name of the container to be deployed"
@@ -29,9 +29,9 @@ variable "environment" {
 }
 
 #TODO: Automate this away
-variable "environmentprefix" { 
+variable "environmentprefix" {
   description = "(Required) prefix must align environment tag"
-} 
+}
 
 variable "service_owner" {
   description = "(Required) Value for the service owner tag"

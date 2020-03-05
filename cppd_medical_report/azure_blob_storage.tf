@@ -5,7 +5,7 @@ resource "azurerm_storage_account" "file_upload" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
-  tags = merge( local.common_tags)
+  tags = merge(local.common_tags)
 }
 
 resource "azurerm_storage_container" "file_upload" {
