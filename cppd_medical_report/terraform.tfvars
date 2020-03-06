@@ -1,4 +1,4 @@
-name               = "CPPD"
+name = "CPPD"
 # Please note the tenantId is not secret as it can be found by someone just trying to login
 tenant_id          = "9ed55846-8a81-4246-acd8-b1a01abfc0d1"
 docker_image       = "cppd/node-app"

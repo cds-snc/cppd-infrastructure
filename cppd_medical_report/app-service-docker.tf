@@ -13,6 +13,7 @@ resource "azurerm_app_service_plan" "app_service_plan" {
   tags = merge(local.common_tags)
 }
 
+
 resource "azurerm_app_service" "app_service" {
   name                = "${local.nameprefix}appservice"
   location            = azurerm_resource_group.resource_group.location
@@ -52,7 +53,7 @@ resource "azurerm_app_service" "app_service" {
   tags = merge(local.common_tags)
 }
 
-output "possible_ips" { 
-  value = azurerm_app_service.app_service.possible_outbound_ip_addresses
+output "possible_ips" {
+  value       = azurerm_app_service.app_service.possible_outbound_ip_addresses
   description = "List of potential IP Addresses this service could have, used for feeding into firewall rules"
 }

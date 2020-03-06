@@ -13,8 +13,8 @@ resource "azurerm_postgresql_server" "postgres" {
     auto_grow             = "Disabled"
   }
 
-  administrator_login          = "psqladmin"
-  administrator_login_password = data.azurerm_key_vault_secret.plsql-admin-pass.value
+  administrator_login          = local.pgadmin_account
+  administrator_login_password = random_password.postgres_admin.result
   version                      = "11"
   ssl_enforcement              = "Enabled"
 

@@ -1,7 +1,7 @@
 variable "name" {
   description = "(Required) Specify the Service Name."
 }
-variable "tenant_id" { 
+variable "tenant_id" {
   description = "(Required) the tenant id for where the service is located"
 }
 variable "infra_version" {
