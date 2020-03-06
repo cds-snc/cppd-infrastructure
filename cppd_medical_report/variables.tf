@@ -1,8 +1,10 @@
 variable "name" {
   description = "(Required) Specify the Service Name."
 }
-
-variable "infra-version" {
+variable "tenant_id" { 
+  description = "(Required) the tenant id for where the service is located"
+}
+variable "infra_version" {
   description = "(Required) Version of the infrastructure."
 }
 variable "location" {

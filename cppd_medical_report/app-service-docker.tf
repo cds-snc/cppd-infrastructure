@@ -51,3 +51,8 @@ resource "azurerm_app_service" "app_service" {
 
   tags = merge(local.common_tags)
 }
+
+output "possible_ips" { 
+  value = azurerm_app_service.app_service.possible_outbound_ip_addresses
+  description = "List of potential IP Addresses this service could have, used for feeding into firewall rules"
+}
