@@ -13,7 +13,6 @@ data "azurerm_client_config" "current" {
 
 }
 
-# Since the terraform service principle will be modifying the key value it should have all the access
 resource "azurerm_key_vault_access_policy" "tf_identity" {
   key_vault_id = azurerm_key_vault.key_vault.id
   object_id    = data.azurerm_client_config.current.object_id
@@ -56,26 +55,12 @@ resource "azurerm_key_vault_secret" "pg_connection_string" {
   name         = "${lower(local.nameprefix)}postgresconnection"
   value        = "postgres://${local.pgadmin_account}@${azurerm_postgresql_database.postgres.name}:${random_password.postgres_admin.result}@${azurerm_postgresql_server.postgres.fqdn}:5432/${azurerm_postgresql_database.postgres.name}"
   key_vault_id = azurerm_key_vault.key_vault.id
-
   tags = merge(local.common_tags)
 }
 
-data "azurerm_key_vault" "central-key-vault" {
-  name                = "central-key-vault"
-  resource_group_name = "CPPD-Fake-Central-Services"
-}
-
-data "azurerm_key_vault_secret" "plsql-admin-pass" {
-  name         = "psqladmin"
-  key_vault_id = data.azurerm_key_vault.central-key-vault.id
-}
-
-data "azurerm_key_vault_secret" "postgres_connection_string" {
-  name         = "${lower(local.nameprefix)}postgresconnection"
-  key_vault_id = data.azurerm_key_vault.central-key-vault.id
-}
-
-data "azurerm_key_vault_secret" "redis_connection_string" {
+resource "azurerm_key_vault_secret" "redis_connection_string" { 
   name         = "${lower(local.nameprefix)}redisconnection"
-  key_vault_id = data.azurerm_key_vault.central-key-vault.id
+  value = "redis://:${azurerm_redis_cache.session_store.primary_access_key}@${azurerm_redis_cache.session_store.hostname}:${azurerm_redis_cache.session_store.ssl_port}"
+  key_vault_id = azurerm_key_vault.key_vault.id
+  tags = merge(local.common_tags)
 }

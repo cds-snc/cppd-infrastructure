@@ -40,8 +40,8 @@ resource "azurerm_app_service" "app_service" {
     "SESSION_ADAPTER"                 = "@sailshq/connect-redis"
     "AUTO_MIGRATE_MODE"               = "alter"
     ## Look up from secret
-    "DATABASE_URL"             = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault.central-key-vault.vault_uri}secrets/${data.azurerm_key_vault_secret.postgres_connection_string.name}/${data.azurerm_key_vault_secret.postgres_connection_string.version})"
-    "SESSION_ADAPTER_URL"      = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault.central-key-vault.vault_uri}secrets/${data.azurerm_key_vault_secret.redis_connection_string.name}/${data.azurerm_key_vault_secret.redis_connection_string.version})"
+    "DATABASE_URL"             = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault.key_vault.vault_uri}secrets/${azurerm_key_vault_secret.pg_connection_string.name}/${azurerm_key_vault_secret.pg_connection_string.version})"
+    "SESSION_ADAPTER_URL"      = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault.key_vault.vault_uri}secrets/${azurerm_key_vault_secret.redis_connection_string.name}/${azurerm_key_vault_secret.redis_connection_string.version})"
     "FEATURE_REDIS_SSL"        = "true"
     "FEATURE_AZURE_PG_SSL"     = "true"
     "FEATURE_AZ_STORAGE"       = "true"
