@@ -52,15 +52,22 @@ resource "azurerm_key_vault_secret" "pg_admin_pass" {
   tags         = merge(local.common_tags)
 }
 resource "azurerm_key_vault_secret" "pg_connection_string" {
-  name         = "${lower(local.nameprefix)}postgresconnection"
+  name         = "postgresconnection"
   value        = "postgres://${local.pgadmin_account}@${azurerm_postgresql_database.postgres.name}:${random_password.postgres_admin.result}@${azurerm_postgresql_server.postgres.fqdn}:5432/${azurerm_postgresql_database.postgres.name}"
   key_vault_id = azurerm_key_vault.key_vault.id
-  tags = merge(local.common_tags)
+  tags         = merge(local.common_tags)
 }
 
-resource "azurerm_key_vault_secret" "redis_connection_string" { 
-  name         = "${lower(local.nameprefix)}redisconnection"
-  value = "redis://:${azurerm_redis_cache.session_store.primary_access_key}@${azurerm_redis_cache.session_store.hostname}:${azurerm_redis_cache.session_store.ssl_port}"
+resource "azurerm_key_vault_secret" "redis_connection_string" {
+  name         = "redisconnection"
+  value        = "redis://:${azurerm_redis_cache.session_store.primary_access_key}@${azurerm_redis_cache.session_store.hostname}:${azurerm_redis_cache.session_store.ssl_port}"
   key_vault_id = azurerm_key_vault.key_vault.id
-  tags = merge(local.common_tags)
+  tags         = merge(local.common_tags)
+}
+
+resource "azurerm_key_vault_secret" "docker_password" {
+  name         = "dockerpword"
+  value        = azurerm_container_registry.container_registry.admin_password
+  key_vault_id = azurerm_key_vault.key_vault.id
+  tags         = merge(local.common_tags)
 }
