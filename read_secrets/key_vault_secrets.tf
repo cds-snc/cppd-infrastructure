@@ -29,7 +29,7 @@ data "azurerm_key_vault_secret" "docker_password" {
 }
 
 
-output "storage_account_key" { 
+output "storage_account_key" {
   value = data.azurerm_key_vault_secret.storage_access_key.value
 }
 
