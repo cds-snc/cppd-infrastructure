@@ -18,6 +18,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+      with:
+        fetch-depth: '0'
     - name: 'Terraform Init, Validate, Plan, and generate json file'
       env:
         URL: ${{ github.event.pull_request.comments_url }}
