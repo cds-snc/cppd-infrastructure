@@ -71,3 +71,10 @@ resource "azurerm_key_vault_secret" "docker_password" {
   key_vault_id = azurerm_key_vault.key_vault.id
   tags         = merge(local.common_tags)
 }
+
+resource "azurerm_key_vault_secret" "storage_access_key" {
+  name         = "storageAccessKey"
+  value        = azurerm_storage_account.file_upload.primary_access_key
+  key_vault_id = azurerm_key_vault.key_vault.id
+  tags         = merge(local.common_tags)
+}

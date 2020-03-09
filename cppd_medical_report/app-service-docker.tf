@@ -46,7 +46,7 @@ resource "azurerm_app_service" "app_service" {
     "FEATURE_AZURE_PG_SSL"     = "true"
     "FEATURE_AZ_STORAGE"       = "true"
     "AZURE_STORAGE_ACCOUNT"    = azurerm_storage_account.file_upload.name
-    "AZURE_STORAGE_ACCESS_KEY" = azurerm_storage_account.file_upload.primary_access_key
+    "AZURE_STORAGE_ACCESS_KEY" = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault.key_vault.vault_uri}secrets/${azurerm_key_vault_secret.storage_access_key.name}/${azurerm_key_vault_secret.storage_access_key.version})"
     "AZURE_STORAGE_CONTAINER"  = azurerm_storage_container.file_upload.name
   }
 
