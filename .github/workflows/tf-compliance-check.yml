@@ -18,18 +18,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: 'Terraform Init'
-      run: terraform init  -backend-config=backend.tfvars
-    - name: 'Terraform Validate'
-      run: terraform validate
-    - name: 'Terraform Plan'
+      with:
+        fetch-depth: '0'
+    - name: 'Terraform Init, Validate, Plan, and generate json file'
       env:
         URL: ${{ github.event.pull_request.comments_url }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run:  ./terraform_plan.sh
-    - name: 'Generate JSON file'
-      run:  terraform show -json tf.plan > tf.plan.json
+      run: | 
+        cd cppd_medical_report
+        terraform init  -backend-config=backend.tfvars
+        terraform validate
+        ./terraform_plan.sh
+        terraform show -json tf.plan > tf.plan.json
     - name: Configuration Test
       uses: instrumenta/conftest-action@master
       with:
-        files: tf.plan.json
+        files: ./cppd_medical_report/tf.plan.json

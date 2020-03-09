@@ -68,5 +68,6 @@ ${planOutput}
   exit ${planExitCode}
 }
 
-
+pushd cppd_medical_report
 terraformPlan
+popd

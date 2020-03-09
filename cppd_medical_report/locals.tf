@@ -7,8 +7,8 @@ locals {
     Environment    = var.environment
     Project        = "DTS"
     ServiceOwner   = var.service_owner
-    Version        = var.infra-version
+    Version        = var.infra_version
   }
-
-  nameprefix = "Es${var.environmentprefix}${var.locationprefix}${var.name}"
+  pgadmin_account = "psqladmin"
+  nameprefix      = "Es${var.environmentprefix}${var.locationprefix}${var.name}"
 }
