@@ -22,7 +22,7 @@ resource "azurerm_app_service" "app_service" {
   https_only          = "true"
 
   site_config {
-    linux_fx_version = "DOCKER|${azurerm_container_registry.container_registry.login_server}/${var.docker_image}:${var.docker_image_tag}"
+    linux_fx_version = "DOCKER|${var.container_registry_login_url}/${var.docker_image}:${var.docker_image_tag}"
     http2_enabled    = true
     always_on        = true
     # virtual_network_name = azurerm_virtual_network.virtual_network.name    
@@ -34,8 +34,8 @@ resource "azurerm_app_service" "app_service" {
 
   app_settings = {
     "DOCKER_ENABLE_CI"                = "true"
-    "DOCKER_REGISTRY_SERVER_URL"      = "https://${azurerm_container_registry.container_registry.login_server}"
-    "DOCKER_REGISTRY_SERVER_USERNAME" = azurerm_container_registry.container_registry.admin_username
+    "DOCKER_REGISTRY_SERVER_URL"      = "https://${var.container_registry_login_url}"
+    "DOCKER_REGISTRY_SERVER_USERNAME" = var.container_registry_user
     "DOCKER_REGISTRY_SERVER_PASSWORD" = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault.key_vault.vault_uri}secrets/${azurerm_key_vault_secret.docker_password.name}/${azurerm_key_vault_secret.docker_password.version})"
     "SESSION_ADAPTER"                 = "@sailshq/connect-redis"
     "AUTO_MIGRATE_MODE"               = "alter"

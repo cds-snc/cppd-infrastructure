@@ -1,9 +1,6 @@
 variable "name" {
   description = "(Required) Specify the Service Name."
 }
-variable "tenant_id" {
-  description = "(Required) the tenant id for where the service is located"
-}
 variable "infra_version" {
   description = "(Required) Version of the infrastructure."
 }
@@ -48,10 +45,13 @@ variable "vnet_address_space" {
 }
 
 #Container Registry 
-variable "docker_password" { 
+variable "container_registry_user" {
+  description = "(Requiored) The username for the registory user"
+}
+variable "container_registry_password" {
   description = "(Required) The password for the dockerfile"
 }
 
-variable "container_registry_login_url" { 
+variable "container_registry_login_url" {
   description = "(Required) The login server for the container registry"
 }

@@ -67,7 +67,7 @@ resource "azurerm_key_vault_secret" "redis_connection_string" {
 
 resource "azurerm_key_vault_secret" "docker_password" {
   name         = "dockerpword"
-  value        = azurerm_container_registry.container_registry.admin_password
+  value        = var.container_registry_password
   key_vault_id = azurerm_key_vault.key_vault.id
   tags         = merge(local.common_tags)
 }
