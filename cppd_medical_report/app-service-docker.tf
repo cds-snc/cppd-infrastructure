@@ -32,6 +32,15 @@ resource "azurerm_app_service" "app_service" {
     type = "SystemAssigned"
   }
 
+  logs {
+    http_logs {
+      file_system {
+        retention_in_days = 7
+        retention_in_mb   = 35
+      }
+    }
+  }
+
   app_settings = {
     "DOCKER_ENABLE_CI"                = "true"
     "DOCKER_REGISTRY_SERVER_URL"      = "https://${var.container_registry_login_url}"
