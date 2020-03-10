@@ -47,14 +47,11 @@ variable "vnet_address_space" {
   description = "The virtual network address space"
 }
 
-#variable "my_sql_master_password" {
-#  description = "MySql master password"
-#}
+#Container Registry 
+variable "docker_password" { 
+  description = "(Required) The password for the dockerfile"
+}
 
-#variable "docker_image" {
-#  description = "Docker image name"
-#}
-
-#variable "docker_image_tag" {
-#  description = "Docker image tag"
-#}
+variable "container_registry_login_url" { 
+  description = "(Required) The login server for the container registry"
+}

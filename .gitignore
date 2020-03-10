@@ -3,5 +3,5 @@
 *.tfstate.backup
 *.plan.json
 *.plan
-
+secrets.tfvars
 .devcontainer

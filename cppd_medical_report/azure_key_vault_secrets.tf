@@ -1,7 +1,7 @@
 resource "azurerm_key_vault" "key_vault" {
   resource_group_name = azurerm_resource_group.resource_group.name
   location            = azurerm_resource_group.resource_group.location
-  tenant_id           = var.tenant_id
+  tenant_id           = data.azurerm_client_config.current.tenant_id
   name                = "${local.nameprefix}kv"
   sku_name            = "standard"
 

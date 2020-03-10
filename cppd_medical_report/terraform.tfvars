@@ -1,6 +1,5 @@
 name = "CPPD"
 # Please note the tenantId is not secret as it can be found by someone just trying to login
-tenant_id          = "9ed55846-8a81-4246-acd8-b1a01abfc0d1"
 docker_image       = "cppd/node-app"
 docker_image_tag   = "latest"
 service_owner      = "calvin.rodo@014gc.microsoftonline.com"
@@ -11,3 +10,4 @@ location           = "canadacentral"
 locationprefix     = "C"
 infra_version      = "0.0.0"
 vnet_address_space = "192.168.0.0/16"
+container_registry_login_url = "essecppdacr.azurecr.io"
