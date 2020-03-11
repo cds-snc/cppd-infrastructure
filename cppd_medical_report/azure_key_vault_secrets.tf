@@ -41,7 +41,12 @@ resource "azurerm_key_vault_access_policy" "ap_identity" {
 
 resource "random_password" "postgres_admin" {
   length  = 16
-  special = false
+  special = true
+  override_special = "@_!+"
+  min_lower = 1
+  min_upper = 1
+  min_numeric = 1
+  min_special = 1
 }
 
 resource "azurerm_key_vault_secret" "pg_admin_pass" {
@@ -49,8 +54,28 @@ resource "azurerm_key_vault_secret" "pg_admin_pass" {
   value        = random_password.postgres_admin.result
   key_vault_id = azurerm_key_vault.key_vault.id
   tags         = merge(local.common_tags)
-  depends_on   = [azurerm_key_vault_access_policy.tf_identity]
+  depends_on   = [azurerm_key_vault_access_policy.tf_identity, random_password.postgres_admin]
 }
+
+resource "random_password" "postgres_user" {
+  length  = 16
+  special = true 
+  override_special = "@_!+"
+  min_lower = 1
+  min_upper = 1
+  min_numeric = 1
+  min_special = 1
+}
+
+resource "azurerm_key_vault_secret" "pg_admin_user" {
+  name         = "psqluser"
+  value        = random_password.postgres_user.result
+  key_vault_id = azurerm_key_vault.key_vault.id
+  tags         = merge(local.common_tags)
+  depends_on   = [azurerm_key_vault_access_policy.tf_identity, random_password.postgres_user]
+}
+
+
 resource "azurerm_key_vault_secret" "pg_connection_string" {
   name         = "postgresconnection"
   value        = "postgres://${local.pgadmin_account}@${azurerm_postgresql_server.postgres.name}:${random_password.postgres_admin.result}@${azurerm_postgresql_server.postgres.fqdn}:5432/${azurerm_postgresql_database.postgres.name}"
