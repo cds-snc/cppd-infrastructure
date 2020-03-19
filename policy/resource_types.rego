@@ -6,7 +6,7 @@ name_policy_exempt_types = {
     "azurerm_postgresql_database",
     "azurerm_storage_container",
     "azurerm_key_vault_secret",
-    "azurerm_postgres_configuration"
+    "azurerm_postgresql_configuration"
 }
 
 
