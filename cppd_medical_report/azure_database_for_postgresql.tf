@@ -28,3 +28,45 @@ resource "azurerm_postgresql_database" "postgres" {
   charset             = "UTF8"
   collation           = "English_United States.1252"
 }
+
+resource "azurerm_monitor_diagnostic_setting" "cache_diagnostic_settings" {
+  name                           = "${local.nameprefix}postgresdiagnostics"
+  target_resource_id             = azurerm_postgresql_database.postgres.id
+  log_analytics_workspace_id     = azurerm_log_analytics_workspace.log_analytics.id
+  log_analytics_destination_type = "Dedicated"
+
+  metric {
+    category = "AllMetrics"
+    retention_policy {
+      enabled = true
+      days    = 7
+    }
+  }
+
+  log {
+    category = "PostgreSQLLogs"
+    enabled  = true
+    retention_policy {
+      enabled = true
+      days    = 7
+    }
+  }
+
+  log {
+    category = "QueryStoreRuntimeStatistics"
+    enabled  = true
+    retention_policy {
+      enabled = true
+      days    = 7
+    }
+  }
+
+  log {
+    category = "QueryStoreWaitStatistics"
+    enabled  = true
+    retention_policy {
+      enabled = true
+      days    = 7
+    }
+  }
+}
