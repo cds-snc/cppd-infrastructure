@@ -29,7 +29,7 @@ resource "azurerm_postgresql_database" "postgres" {
   collation           = "English_United States.1252"
 }
 
-resource "azurerm_monitor_diagnostic_setting" "cache_diagnostic_settings" {
+resource "azurerm_monitor_diagnostic_setting" "database_diagnostic_settings" {
   name                           = "${local.nameprefix}postgresdiagnostics"
   target_resource_id             = azurerm_postgresql_database.postgres.id
   log_analytics_workspace_id     = azurerm_log_analytics_workspace.log_analytics.id
