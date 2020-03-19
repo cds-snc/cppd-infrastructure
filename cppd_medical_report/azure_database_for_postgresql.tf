@@ -70,3 +70,24 @@ resource "azurerm_monitor_diagnostic_setting" "database_diagnostic_settings" {
     }
   }
 }
+
+resource "azurerm_postgresql_configuration" "db_congif_log_level" {
+  name                = "client_min_messages"
+  resource_group_name = azurerm_resource_group.resource_group.name
+  server_name         = azurerm_postgresql_server.postgres.name
+  value               = "LOG"
+}
+
+resource "azurerm_postgresql_configuration" "db_congif_retention" {
+  name                = "log_retention_days"
+  resource_group_name = azurerm_resource_group.resource_group.name
+  server_name         = azurerm_postgresql_server.postgres.name
+  value               = "7"
+}
+
+resource "azurerm_postgresql_configuration" "db_congif_log_statement" {
+  name                = "log_statement"
+  resource_group_name = azurerm_resource_group.resource_group.name
+  server_name         = azurerm_postgresql_server.postgres.name
+  value               = "ALL"
+}
