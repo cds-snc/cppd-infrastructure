@@ -31,7 +31,7 @@ resource "azurerm_postgresql_database" "postgres" {
 
 resource "azurerm_monitor_diagnostic_setting" "database_diagnostic_settings" {
   name                           = "${local.nameprefix}postgresdiagnostics"
-  target_resource_id             = azurerm_postgresql_database.postgres.id
+  target_resource_id             = azurerm_postgresql_server.postgres.id
   log_analytics_workspace_id     = azurerm_log_analytics_workspace.log_analytics.id
   log_analytics_destination_type = "Dedicated"
 
@@ -90,4 +90,11 @@ resource "azurerm_postgresql_configuration" "db_congif_log_statement" {
   resource_group_name = azurerm_resource_group.resource_group.name
   server_name         = azurerm_postgresql_server.postgres.name
   value               = "ALL"
+}
+
+resource "azurerm_postgresql_configuration" "db_congif_log_duration" {
+  name                = "log_duration"
+  resource_group_name = azurerm_resource_group.resource_group.name
+  server_name         = azurerm_postgresql_server.postgres.name
+  value               = "ON"
 }

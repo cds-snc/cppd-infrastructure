@@ -42,7 +42,6 @@ resource "azurerm_key_vault_access_policy" "ap_identity" {
 resource "random_password" "postgres_admin" {
   length           = 16
   special          = true
-  override_special = "_%@"
 }
 
 resource "azurerm_key_vault_secret" "pg_admin_pass" {
@@ -53,7 +52,7 @@ resource "azurerm_key_vault_secret" "pg_admin_pass" {
 }
 resource "azurerm_key_vault_secret" "pg_connection_string" {
   name         = "postgresconnection"
-  value        = "postgres://${local.pgadmin_account}@${azurerm_postgresql_database.postgres.name}:${random_password.postgres_admin.result}@${azurerm_postgresql_server.postgres.fqdn}:5432/${azurerm_postgresql_database.postgres.name}"
+  value        = "postgres://${local.pgadmin_account}@${azurerm_postgresql_database.postgres.name}:${urlencode(random_password.postgres_admin.result)}@${azurerm_postgresql_server.postgres.fqdn}:5432/${azurerm_postgresql_database.postgres.name}"
   key_vault_id = azurerm_key_vault.key_vault.id
   tags         = merge(local.common_tags)
 }
