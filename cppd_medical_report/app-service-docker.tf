@@ -31,6 +31,15 @@ resource "azurerm_app_service" "app_service" {
   identity {
     type = "SystemAssigned"
   }
+  
+  logs {
+    http_logs {
+      file_system {
+        retention_in_days = 7
+        retention_in_mb   = 100
+      }
+    }
+  }
 
   app_settings = {
     "DOCKER_ENABLE_CI"                = "true"
@@ -39,6 +48,7 @@ resource "azurerm_app_service" "app_service" {
     "DOCKER_REGISTRY_SERVER_PASSWORD" = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault.key_vault.vault_uri}secrets/${azurerm_key_vault_secret.docker_password.name}/${azurerm_key_vault_secret.docker_password.version})"
     "SESSION_ADAPTER"                 = "@sailshq/connect-redis"
     "AUTO_MIGRATE_MODE"               = "alter"
+    "LOG_LEVEL"                       = "verbose"
     ## Look up from secret
     "DATABASE_URL"             = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault.key_vault.vault_uri}secrets/${azurerm_key_vault_secret.pg_connection_string.name}/${azurerm_key_vault_secret.pg_connection_string.version})"
     "SESSION_ADAPTER_URL"      = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault.key_vault.vault_uri}secrets/${azurerm_key_vault_secret.redis_connection_string.name}/${azurerm_key_vault_secret.redis_connection_string.version})"

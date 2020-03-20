@@ -14,3 +14,18 @@ resource "azurerm_redis_cache" "session_store" {
 
   tags = merge(local.common_tags)
 }
+
+resource "azurerm_monitor_diagnostic_setting" "cache_diagnostic_settings" {
+  name                           = "${local.nameprefix}cachediagnostics"
+  target_resource_id             = azurerm_redis_cache.session_store.id
+  log_analytics_workspace_id     = azurerm_log_analytics_workspace.log_analytics.id
+  log_analytics_destination_type = "Dedicated"
+
+  metric {
+    category = "AllMetrics"
+    retention_policy {
+      enabled = true
+      days    = 7
+    }
+  }
+}
