@@ -52,7 +52,7 @@ resource "azurerm_key_vault_secret" "pg_admin_pass" {
 }
 resource "azurerm_key_vault_secret" "pg_connection_string" {
   name         = "postgresconnection"
-  value        = "postgres://${local.pgadmin_account}@${azurerm_postgresql_database.postgres.name}:${urlencode(random_password.postgres_admin.result)}@${azurerm_postgresql_server.postgres.fqdn}:5432/${azurerm_postgresql_database.postgres.name}"
+  value        = "postgres://${local.pgadmin_account}@${azurerm_postgresql_server.postgres.fqdn}:${urlencode(random_password.postgres_admin.result)}@${azurerm_postgresql_server.postgres.fqdn}:5432/${azurerm_postgresql_database.postgres.name}"
   key_vault_id = azurerm_key_vault.key_vault.id
   tags         = merge(local.common_tags)
 }
